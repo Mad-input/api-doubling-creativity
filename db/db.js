@@ -1,4 +1,5 @@
 import { UserModel } from '../model/user.model.js'
+import { DetailModel } from '../model/details.model.js'
 import bcrypt from 'bcrypt'
 
 const registerUser = async ({ name, email, password, isAdmin }) => {
@@ -47,8 +48,49 @@ const foundUser = async (id) => {
   }
 }
 
+const getDetails = async (id) => {
+  const details = await DetailModel.find({ user: id }).populate('user')
+  if (!details) throw new Error('Not found')
+
+  return details
+}
+
+const createDetail = async ({ user, title, completed }) => {
+  try {
+    const foundDetail = await DetailModel.findOne({ title })
+    if (foundDetail) return
+
+    const newDetail = await new DetailModel({ user, title, completed })
+    const detailCreated = await newDetail.save()
+    return detailCreated
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+const updateDetail = async (id, data) => {
+  try {
+    const foundDetail = await DetailModel.findByIdAndUpdate({ _id: id }, { data }, { new: true })
+    return foundDetail
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+const deleteDetail = async (id) => {
+  try {
+    await DetailModel.findByIdAndDelete({ id })
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 export {
   registerUser,
   loginUser,
-  foundUser
+  foundUser,
+  getDetails,
+  createDetail,
+  updateDetail,
+  deleteDetail
 }

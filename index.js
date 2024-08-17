@@ -2,6 +2,8 @@ import express, { json } from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import authRouter from './routes/auth.routes.js'
+import detailsRoutes from './routes/details.routes.js'
+import { validateToken } from './middlewares/validateToken.middleware.js'
 import { URI, PORT } from './config.db.js'
 import mongoose from 'mongoose'
 
@@ -17,6 +19,9 @@ app.use(cors({
 }))
 
 app.use(authRouter)
+app.use(detailsRoutes)
+
+app.get('/protected', validateToken)
 
 app.listen(PORT, () => {
   console.log('Sever on port ', PORT)
