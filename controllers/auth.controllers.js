@@ -5,9 +5,9 @@ export const controllerRegister = async (req, res) => {
   try {
     const user = await registerUser(req.body)
     req.user = user
-    res.status(200).json({ user })
+    if (user) return res.status(200).json({ user })
   } catch (error) {
-    res.status(400).send(error)
+    return res.status(400).json({ error })
   }
 }
 
@@ -20,18 +20,23 @@ export const controllerLogin = async (req, res) => {
       .cookie('access_token', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 1000 * 60 * 60
+        sameSite: 'lax',
+        maxAge: 24 * 60 * 60 * 1000
       })
       .status(200)
       .json({ user })
   } catch (error) {
-    res.status(400).send(error.message)
+    res.status(400).json({ error })
   }
 }
 
 export const controllerLogout = (req, res) => {
-  res.clearCookie('access_token')
+  res.clearCookie('access_token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 24 * 60 * 60 * 1000
+  })
   res.json({ message: 'logout' })
 }
 
@@ -41,6 +46,6 @@ export const controllerProfile = async (req, res) => {
     const user = await foundUser(id)
     res.status(200).json({ user })
   } catch (error) {
-    throw new Error(error.message)
+    throw new Error(error)
   }
 }

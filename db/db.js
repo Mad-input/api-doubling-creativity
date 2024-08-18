@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt'
 const registerUser = async ({ name, email, password, isAdmin }) => {
   try {
     const userFound = await UserModel.findOne({ email })
-    if (userFound) throw new Error('Already user exists')
+    if (userFound) throw new Error('Already user exists').message
 
     const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -13,14 +13,14 @@ const registerUser = async ({ name, email, password, isAdmin }) => {
     const userCreated = await newUser.save()
     return { name: userCreated.name, email: userCreated.email }
   } catch (e) {
-    throw new Error(`${e}`)
+    throw new Error(e).message
   }
 }
 
 const loginUser = async ({ email, password }) => {
   try {
     const userFound = await UserModel.findOne({ email })
-    if (!userFound) throw new Error('user does not exist')
+    if (!userFound) throw new Error('user does not exist').message
 
     const macth = await bcrypt.compare(password, userFound.password)
     if (!macth) throw new Error('user or password invalid')
@@ -32,7 +32,7 @@ const loginUser = async ({ email, password }) => {
       createAt: userFound.createdAt
     }
   } catch (e) {
-    throw new Error(`${e}`)
+    throw new Error(`${e}`).message
   }
 }
 
