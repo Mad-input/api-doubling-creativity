@@ -4,8 +4,10 @@ import cors from 'cors'
 import authRouter from './routes/auth.routes.js'
 import detailsRoutes from './routes/details.routes.js'
 import { validateToken } from './middlewares/validateToken.middleware.js'
-import { URI, PORT } from './config.db.js'
+import { URI } from './config.db.js'
 import mongoose from 'mongoose'
+
+const PORT = process.env.PORT || 3000
 
 mongoose.connect(URI)
 
