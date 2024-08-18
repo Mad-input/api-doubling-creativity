@@ -15,11 +15,13 @@ const app = express()
 
 app.use(json())
 app.use(cookieParser())
+app.options('*', cors()) // Maneja las solicitudes preflight
 app.use(cors({
   origin: 'http://localhost:4321',
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }))
-
 app.use(authRouter)
 app.use(detailsRoutes)
 
