@@ -26,7 +26,7 @@ app.options('*', cors()) // Maneja las solicitudes preflight
 app.use((req, res, next) => {
   res.setHeader(
     'Access-Control-Allow-Origin',
-    'https://your-frontend.com'
+    'http://localhost:4321/'
   )
   res.setHeader(
     'Access-Control-Allow-Methods',
