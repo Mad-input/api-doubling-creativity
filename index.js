@@ -21,8 +21,8 @@ const optionsCors = {
 
 app.use(json())
 app.use(cookieParser())
-app.use(cors(optionsCors))
 app.options('*', cors(optionsCors)) // Maneja las solicitudes preflight
+app.use(cors(optionsCors))
 app.use(authRouter)
 app.use(detailsRoutes)
 
