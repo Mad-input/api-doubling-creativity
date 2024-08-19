@@ -10,7 +10,7 @@ const getAllDetails = async (req, res) => {
     const details = await getDetails(req.userId)
     res.status(200).json({ details })
   } catch (error) {
-    throw new Error(error.message)
+    throw new Error(error)
   }
 }
 
@@ -19,7 +19,7 @@ const createDetailsUser = async (req, res) => {
     const detail = await createDetail(req.body)
     res.status(200).json({ detail })
   } catch (error) {
-    throw new Error(error.message)
+    throw new Error(error)
   }
 }
 
