@@ -1,6 +1,13 @@
 import { registerUser, loginUser, foundUser } from '../db/db.js'
 import { createAccessToken } from '../libs/jwt.js'
 
+const optionsCookie = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'None',
+  maxAge: 24 * 60 * 60 * 1000
+}
+
 export const controllerRegister = async (req, res) => {
   try {
     const user = await registerUser(req.body)
@@ -17,12 +24,7 @@ export const controllerLogin = async (req, res) => {
     const id = user.id
     const token = await createAccessToken({ id })
     res
-      .cookie('access_token', token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'lax',
-        maxAge: 24 * 60 * 60 * 1000
-      })
+      .cookie('access_token', token, optionsCookie)
       .status(200)
       .json({ user })
   } catch (error) {
@@ -31,12 +33,7 @@ export const controllerLogin = async (req, res) => {
 }
 
 export const controllerLogout = (req, res) => {
-  res.clearCookie('access_token', {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'lax',
-    maxAge: 24 * 60 * 60 * 1000
-  })
+  res.clearCookie('access_token', optionsCookie)
   res.json({ message: 'logout' })
 }
 
