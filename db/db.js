@@ -55,12 +55,12 @@ const getDetails = async (id) => {
   return details
 }
 
-const createDetail = async ({ user, title, completed }) => {
+const createDetail = async ({ user, title, score }) => {
   try {
     const foundDetail = await DetailModel.findOne({ title })
     if (foundDetail) return
 
-    const newDetail = await new DetailModel({ user, title, completed })
+    const newDetail = new DetailModel({ user, title, score })
     const detailCreated = await newDetail.save()
     return detailCreated
   } catch (error) {
