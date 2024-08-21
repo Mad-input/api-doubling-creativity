@@ -13,13 +13,7 @@ mongoose.connect(URI)
 
 const whiteList = ['http://localhost:4321', 'https://heartfelt-faloodeh-de88bd.netlify.app']
 const optionsCors = {
-  origin: (origin, callback) => {
-    if (whiteList.includes(origin)) {
-      callback(null, true) // Permitir acceso
-    } else {
-      callback(new Error('Not allowed by CORS')) // Bloquear acceso si el origen no está permitido
-    }
-  },
+  origin: whiteList,
   credentials: true, // Permitir credenciales (cookies)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
