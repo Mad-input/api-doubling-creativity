@@ -1,19 +1,22 @@
 import mongoose, { Schema } from 'mongoose'
 
 const detailSchema = new Schema({
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    ref: 'User',
     required: true
   },
-  title: {
+  tutorialTitle: {
     type: String,
-    required: true,
-    trim: true
+    required: true
   },
-  completed: {
-    type: Boolean,
-    default: false
+  points: {
+    type: Number,
+    required: true
+  },
+  maxPoints: {
+    type: Number,
+    required: true
   }
 }, {
   timestamps: true

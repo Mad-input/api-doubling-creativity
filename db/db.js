@@ -55,31 +55,19 @@ const getDetails = async (id) => {
   return details
 }
 
-const createDetail = async ({ user, title, score }) => {
+const createDetail = async ({ id, tutorialTitle, points, maxPoints }) => {
   try {
-    const foundDetail = await DetailModel.findOne({ title })
+    const foundDetail = await DetailModel.findOne({ tutorialTitle })
     if (foundDetail) return
-
-    const newDetail = new DetailModel({ user, title, score })
-    const detailCreated = await newDetail.save()
-    return detailCreated
-  } catch (error) {
-    throw new Error(error)
-  }
-}
-
-const updateDetail = async (id, data) => {
-  try {
-    const foundDetail = await DetailModel.findByIdAndUpdate({ _id: id }, { data }, { new: true })
-    return foundDetail
-  } catch (error) {
-    throw new Error(error)
-  }
-}
-
-const deleteDetail = async (id) => {
-  try {
-    await DetailModel.findByIdAndDelete({ id })
+    // Crea un nuevo resultado de quiz
+    const quizResult = new DetailModel({
+      userId: id, // Obtén el ID del usuario desde el middleware de autenticación
+      tutorialTitle,
+      points,
+      maxPoints
+    })
+    // Guarda el resultado en la base de datos
+    await quizResult.save()
   } catch (error) {
     throw new Error(error)
   }
@@ -90,7 +78,5 @@ export {
   loginUser,
   foundUser,
   getDetails,
-  createDetail,
-  updateDetail,
-  deleteDetail
+  createDetail
 }

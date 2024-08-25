@@ -14,15 +14,24 @@ const getAllDetails = async (req, res) => {
   }
 }
 
-const createDetailsUser = async (req, res) => {
+const createDetailUser = async (req, res) => {
   try {
-    const detail = await createDetail(req.body)
-    res.status(200).json({ detail })
+    const { tutorialTitle, points, maxPoints } = req.body
+    const { userId } = req
+
+    // Valida que se hayan recibido todos los datos necesarios
+    if (!tutorialTitle || points === undefined || maxPoints === undefined) {
+      return res.status(400).json({ message: 'Todos los campos son requeridos' })
+    }
+
+    await createDetail({ userId, tutorialTitle, points, maxPoints })
+
+    res.status(201).json({ message: 'Resultado del quiz guardado exitosamente' })
   } catch (error) {
-    throw new Error(error)
+    console.error('Error guardando el resultado del quiz:', error)
+    res.status(500).json({ message: 'Error guardando el resultado del quiz' })
   }
 }
-
 const deleteDetailsUser = async (req, res) => {
   try {
     await deleteDetail(req.body)
@@ -42,7 +51,7 @@ const updateDetailsUser = async (req, res) => {
 
 export {
   getAllDetails,
-  createDetailsUser,
+  createDetailUser,
   deleteDetailsUser,
   updateDetailsUser
 }
