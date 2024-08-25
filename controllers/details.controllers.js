@@ -1,8 +1,6 @@
 import {
   getDetails,
-  createDetail,
-  deleteDetail,
-  updateDetail
+  createDetail
 } from '../db/db.js'
 
 const getAllDetails = async (req, res) => {
@@ -32,26 +30,8 @@ const createDetailUser = async (req, res) => {
     res.status(500).json({ message: 'Error guardando el resultado del quiz' })
   }
 }
-const deleteDetailsUser = async (req, res) => {
-  try {
-    await deleteDetail(req.body)
-    res.status(201)
-  } catch (error) {
-    throw new Error(error.message)
-  }
-}
-const updateDetailsUser = async (req, res) => {
-  try {
-    const detail = await updateDetail(req.params.id, req.body)
-    res.status(200).json({ detail })
-  } catch (error) {
-    throw new Error(error.message)
-  }
-}
 
 export {
   getAllDetails,
-  createDetailUser,
-  deleteDetailsUser,
-  updateDetailsUser
+  createDetailUser
 }
