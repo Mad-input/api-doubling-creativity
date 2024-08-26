@@ -2,14 +2,14 @@ import { UserModel } from '../model/user.model.js'
 import { DetailModel } from '../model/details.model.js'
 import bcrypt from 'bcrypt'
 
-const registerUser = async ({ name, email, password, isAdmin }) => {
+const registerUser = async ({ name, email, password, isAdmin, userImage }) => {
   try {
     const userFound = await UserModel.findOne({ email })
     if (userFound) throw new Error('Already user exists').message
 
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    const newUser = new UserModel({ name, email, password: hashedPassword, isAdmin })
+    const newUser = new UserModel({ name, email, password: hashedPassword, isAdmin, userImage })
     const userCreated = await newUser.save()
     return { name: userCreated.name, email: userCreated.email }
   } catch (e) {
@@ -29,7 +29,8 @@ const loginUser = async ({ email, password }) => {
       id: userFound._id,
       name: userFound.name,
       email: userFound.email,
-      createAt: userFound.createdAt
+      createAt: userFound.createdAt,
+      userImage: userFound.userImage
     }
   } catch (e) {
     throw new Error(`${e}`).message
@@ -44,7 +45,8 @@ const foundUser = async (id) => {
     name: userFound.name,
     email: userFound.email,
     createAt: userFound.createdAt,
-    isAdmin: userFound.isAdmin
+    isAdmin: userFound.isAdmin,
+    imageUser: userFound.userImage
   }
 }
 
