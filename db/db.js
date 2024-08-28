@@ -57,13 +57,13 @@ const getDetails = async (id) => {
   return details
 }
 
-const createDetail = async ({ id, tutorialTitle, points, maxPoints }) => {
+const createDetail = async ({ userId, tutorialTitle, points, maxPoints }) => {
   try {
     const foundDetail = await DetailModel.findOne({ tutorialTitle })
     if (foundDetail) return
     // Crea un nuevo resultado de quiz
     const quizResult = new DetailModel({
-      userId: id, // Obtén el ID del usuario desde el middleware de autenticación
+      userId, // Obtén el ID del usuario desde el middleware de autenticación
       tutorialTitle,
       points,
       maxPoints

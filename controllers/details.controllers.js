@@ -14,19 +14,18 @@ const getAllDetails = async (req, res) => {
 
 const createDetailUser = async (req, res) => {
   try {
-    const { tutorialTitle, points, maxPoints } = req.body
-    const { userId } = req
+    const { user, tutorialTitle, points, maxPoints } = req.body
 
     // Valida que se hayan recibido todos los datos necesarios
     if (!tutorialTitle || points === undefined || maxPoints === undefined) {
       return res.status(400).json({ message: 'Todos los campos son requeridos' })
     }
 
-    await createDetail({ userId, tutorialTitle, points, maxPoints })
+    await createDetail({ userId: user, tutorialTitle, points, maxPoints })
 
     res.status(201).json({ message: 'Resultado del quiz guardado exitosamente' })
   } catch (error) {
-    console.error('Error guardando el resultado del quiz:', error)
+    console.error(error)
     res.status(500).json({ message: 'Error guardando el resultado del quiz' })
   }
 }
