@@ -50,8 +50,8 @@ const foundUser = async (id) => {
   }
 }
 
-const getDetails = async (id) => {
-  const details = await DetailModel.find({ user: id }).populate('user')
+const getDetails = async (userId) => {
+  const details = await DetailModel.find({ userId }).populate('user')
   if (!details) throw new Error('Not found')
 
   return details
