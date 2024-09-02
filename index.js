@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000
 const app = express()
 mongoose.connect(URI)
 
-const whiteList = ['http://localhost:4321', 'https://heartfelt-faloodeh-de88bd.netlify.app']
+const whiteList = ['http://localhost:4321', 'https://doubingcreativity.netlify.app']
 const optionsCors = {
   origin: whiteList,
   credentials: true, // Permitir credenciales (cookies)
