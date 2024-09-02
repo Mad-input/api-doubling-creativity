@@ -1,6 +1,7 @@
 import {
   getDetails,
-  createDetail
+  createDetail,
+  getDetail
 } from '../db/db.js'
 
 const getAllDetails = async (req, res) => {
@@ -30,7 +31,18 @@ const createDetailUser = async (req, res) => {
   }
 }
 
+const getDetailUser = async (req, res) => {
+  const { userId } = req.body
+  try {
+    const detail = await getDetail(req.params.title, userId)
+    res.status(200).json({ detail })
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 export {
   getAllDetails,
-  createDetailUser
+  createDetailUser,
+  getDetailUser
 }

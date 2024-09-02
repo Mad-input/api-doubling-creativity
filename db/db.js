@@ -52,9 +52,12 @@ const foundUser = async (id) => {
 
 const getDetails = async (userId) => {
   const details = await DetailModel.find({ userId }).populate('user')
-  if (!details) throw new Error('Not found')
 
   return details
+}
+const getDetail = async (tutorialTitle, userId) => {
+  const detail = await DetailModel.findOne({ tutorialTitle, userId })
+  if (!detail) throw new Error('Not found')
 }
 
 const createDetail = async ({ userId, tutorialTitle, points, maxPoints }) => {
@@ -80,5 +83,6 @@ export {
   loginUser,
   foundUser,
   getDetails,
-  createDetail
+  createDetail,
+  getDetail
 }
